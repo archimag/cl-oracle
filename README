@@ -1,0 +1,2 @@
+cl-oracle - Common Lisp library for interacting with Oracle databases
+via OCILIB.
