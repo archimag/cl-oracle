@@ -9,7 +9,7 @@
 (defsystem #:cl-oracle
   :author "Dmitry Statyvka <dmitry@statyvka.org.ua>, Moskvitin Andrey <archimag@gmail.com>"
   :version "0.0.1"
-  :depends-on (#:cffi #:iterate #:parse-number<)
+  :depends-on (#:cffi #:iterate #:parse-number)
   :components
   ((:module "src"
             :components ((:file "package")
