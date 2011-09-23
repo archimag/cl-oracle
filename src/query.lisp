@@ -45,22 +45,22 @@
 (define-oci-function ("OCI_ColumnGetName" %get-column-name) :string
   (column %column))
 
-(define-oci-function ("OCI_GetInt" %get-int) :int
-  (rs %result-set)
-  (index :uint))
+(define-oci-function ("OCI_ColumnGetSubType" %get-column-subtype) :uint
+  (column %column))
 
 (define-oci-function ("OCI_GetString" %get-string) :string
   (rs %result-set)
   (index :uint))
 
-(define-oci-function ("OCI_GetDouble" %get-double) :double
-  (rs %result-set)
-  (index :uint))
+(defun get-numeric (rs index)
+  (let ((str (%get-string rs index)))
+    (if str
+        (parse-number:parse-number str))))
 
 (defun column-value-getter (column)
   (case (%get-column-type column)
     (:oci-cdt-text #'%get-string)
-    (:oci-cdt-numeric #'%get-int)
+    (:oci-cdt-numeric #'get-numeric)
     (otherwise #'%get-string)))
 
 (defun field-name-s (str)
@@ -103,8 +103,7 @@
   (collect value))
 
 (defun read-single-value (rs columns)
-  (declare (ignore columns))
-  (funcall (column-value-getter (%get-column rs 1))
+  (funcall (cdr (car columns))
            rs
            1))
 
